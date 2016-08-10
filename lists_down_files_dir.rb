@@ -1,20 +1,25 @@
-#puts Dir.entries('.').select {|f| File.file? f} #to get the file of the current directories
+#files = Dir.entries(".")
 
-#puts Dir.glob("**/") #to get the path of directories upto subdirectories
+#puts Dir.entries( '.' ).select{ |f| File.file? f }
 
-#files = Dir[ '**/*' ].select{ |f| File.file? f } #returns filename and paths
-#puts files # ["file1.rb", "file2.rb", "file3.rb"]
+#puts Dir.glob("*/*")
 
-#Using the CSV class
-#require 'csv'
+#files.each do |file_name|
+	
+#Dir.foreach('.') {|x| puts "#{x}" }
 
-#CSV.open('test.csv', 'wb') do |csv|
-#	csv << (files)
-#end
+#files1 = Dir.entries('.').select {|f| File.file? f} #to get the file of the current directory
+#puts files1
+#files = Dir.glob("**/") #to get the path of directories upto subdirectories
+#files1 = Dir.entries('.') #to get the path of directories upto subdirectories
+require 'csv'
 
-#Using the File Class
-files = Dir[ '**/*' ].select{ |f| File.file? f }
-puts files #["file1.rb", "path/file2.rb"]
+files = Dir.glob('**/*').select { |f| File.file? f } #get 
+puts files #["file1.rb","path/file2.rb","path/subdir/file3.rb"]
 
-file = File.new('test2.csv','w')
-file.puts (files)
+CSV.open('test.csv', 'wb') do |csv| #create csv file
+	csv << ["Filename", "Path"] #column header
+	files.each do |fs| #iterate over the file
+		 csv << [File.basename(fs), File.dirname(fs)] #File.basename-> to get files, File.dirname -> to get the dir of file
+	end
+end
